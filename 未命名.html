@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALL INSIGHT | 奥因塞特 - 视觉与科技的重塑</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#030712', // 更深的黑
+            surface: '#0F172A',
+            primary: '#8B5CF6', // 亮紫
+            secondary: '#F43F5E', // 玫红
+            accent: '#06B6D4', // 青色
+            success: '#10B981', // 成功绿
+          },
+          fontFamily: {
+            sans: ['"Noto Sans SC"', 'Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'blob': 'blob 7s infinite',
+            'spin': 'spin 1s linear infinite',
+            'scale-in': 'scaleIn 0.3s ease-out forwards',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            spin: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' },
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            }
+          }
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .glass-nav {
+        background: rgba(3, 7, 18, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .glass-card {
+        background: rgba(30, 41, 59, 0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+      .glass-panel {
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .text-gradient {
+        background: linear-gradient(135deg, #A78BFA 0%, #F43F5E 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .btn-glow {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .btn-glow::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+      }
+      .btn-glow:hover::before {
+        left: 100%;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #030712; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569; 
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .text-balance {
+        text-wrap: balance;
+      }
+      .content-auto {
+        content-visibility: auto;
+      }
+      .preview-image {
+        transition: transform 0.2s ease;
+        cursor: zoom-in;
+      }
+      .preview-image.zoomed {
+        cursor: zoom-out;
+      }
+      .work-card-hover {
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .work-card-hover:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.1), 0 10px 10px -5px rgba(139, 92, 246, 0.04);
+      }
+      @media (max-width: 360px) {
+        .work-card-title {
+          font-size: 1rem !important;
+        }
+        .btn {
+          padding: 0.75rem 1.5rem !important;
+          font-size: 0.875rem !important;
+        }
+      }
+      @media (min-width: 1600px) {
+        .container {
+          max-width: 1500px !important;
+        }
+        #worksGrid {
+          grid-template-columns: repeat(4, 1fr) !important;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-dark text-slate-200 font-sans selection:bg-primary/30 selection:text-white">
+
+  <!-- 背景装饰 -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+    <div class="absolute top-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-accent/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-4000"></div>
+    <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+  </div>
+
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+    <nav class="glass-nav py-4 px-6 md:px-12">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="#" class="group flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/30 transition-transform group-hover:rotate-3">A</div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold tracking-tight text-white leading-none group-hover:text-primary transition-colors">ALL INSIGHT</span>
+            <span class="text-[10px] tracking-widest text-gray-400 uppercase">Design Agency</span>
+          </div>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-10">
+          <a href="#home" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">首页</a>
+          <a href="#works" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">精选作品</a>
+          <a href="#services" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">服务体系</a>
+          <a href="#about" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">关于我们</a>
+          <a href="#contact" class="px-5 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-white transition-all hover:scale-105">
+            合作咨询
+          </a>
+        </div>
+        
+        <button id="menuBtn" class="md:hidden text-2xl text-white" aria-label="打开菜单" aria-expanded="false">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 移动端菜单 -->
+  <div id="mobileMenu" class="fixed inset-0 z-40 bg-dark/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 md:hidden flex items-center justify-center">
+    <div class="flex flex-col space-y-8 text-center text-xl">
+      <a href="#home" class="mobile-link text-white hover:text-primary transition-colors">首页</a>
+      <a href="#works" class="mobile-link text-white hover:text-primary transition-colors">精选作品</a>
+      <a href="#services" class="mobile-link text-white hover:text-primary transition-colors">服务体系</a>
+      <a href="#about" class="mobile-link text-white hover:text-primary transition-colors">关于我们</a>
+      <a href="#contact" class="mobile-link text-primary font-bold">合作咨询</a>
+      <button id="closeMenu" class="absolute top-6 right-6 text-white text-3xl"><i class="fa fa-times"></i></button>
+    </div>
+  </div>
+
+  <!-- 首页Hero区 -->
+  <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+    <div class="container mx-auto px-6 relative z-10 text-center">
+      <div class="animate-fade-in-up opacity-0" style="animation-delay: 0.1s;">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-accent text-xs tracking-wider mb-8 backdrop-blur-sm">
+          ✨ 视觉艺术家 / 智能科技设计
+        </span>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight animate-fade-in-up opacity-0" style="animation-delay: 0.3s;">
+        <span class="block text-white mb-2">光影所至</span>
+        <span class="text-gradient">皆为传奇</span>
+      </h1>
+      
+      <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in-up opacity-0" style="animation-delay: 0.5s;">
+        我们用镜头重塑视觉想象，融合 AIGC 与传统美学，致力于为每一个品牌瞬间注入电影般的质感与灵魂。
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center gap-5 animate-fade-in-up opacity-0" style="animation-delay: 0.7s;">
+        <a href="#works" class="btn-glow px-8 py-4 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-bold shadow-lg shadow-primary/25 hover:shadow-primary/40 transform hover:-translate-y-1 transition-all">
+          探索作品
+        </a>
+        <a href="#contact" class="px-8 py-4 rounded-full glass-card hover:bg-white/10 text-white font-medium transform hover:-translate-y-1 transition-all">
+          开启合作
+        </a>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+      <i class="fa fa-angle-down text-2xl text-white"></i>
+    </div>
+  </section>
+
+  <!-- 精选作品区 -->
+  <section id="works" class="py-24 relative">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div>
+          <h2 class="text-4xl font-bold text-white mb-4 flex items-center gap-3">
+            精选作品 
+            <button onclick="toggleUploadModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary/20 flex items-center justify-center text-gray-600 hover:text-primary transition-all text-xs" title="内部上传通道">
+              <i class="fa fa-lock"></i>
+            </button>
+          </h2>
+          <p class="text-gray-400 max-w-xl">凝聚创意与技术的结晶，每一个像素都在讲述品牌的故事。<br>仅公司内部人员可上传作品，作品需审核后展示。</p>
+        </div>
+        
+        <!-- 筛选器：新增智能培训分类 -->
+        <div class="glass-card p-1.5 rounded-full flex space-x-1 flex-wrap justify-center">
+          <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium text-white bg-white/10 shadow-sm transition-all" data-filter="all">全部</button>
+          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" data-filter="brand">品牌全案</button>
+          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" data-filter="video">视频制作</button>
+          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" data-filter="training">智能培训</button>
+          <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all" data-filter="exhibition">交互展陈</button>
+        </div>
+      </div>
+
+      <!-- 上传模态框 -->
+      <div id="uploadModal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-dark/90 backdrop-blur-sm" onclick="toggleUploadModal()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl px-4">
+          <div class="glass-panel rounded-2xl p-8 border border-primary/20 shadow-2xl shadow-primary/10 animate-scale-in">
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-xl font-bold text-white flex items-center">
+                <i class="fa fa-cloud-upload text-primary mr-3"></i> 内部作品上传
+              </h3>
+              <button onclick="toggleUploadModal()" class="text-gray-400 hover:text-white" aria-label="关闭上传窗口">
+                <i class="fa fa-times text-xl"></i>
+              </button>
+            </div>
+            
+            <form id="uploadForm" class="space-y-5">
+              <div class="grid grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">作品标题</label>
+                  <input type="text" id="workTitle" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm transition-colors" placeholder="输入标题（2-50字）..." required>
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">分类</label>
+                  <select id="workCategory" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm appearance-none cursor-pointer" required>
+                    <option value="brand">品牌全案 (Brand)</option>
+                    <option value="video">视频制作 (Video)</option>
+                    <option value="training">智能培训 (Training)</option>
+                    <option value="exhibition">交互展陈 (Exhibition)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="relative group">
+                  <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">1. 作品封面图 (JPG/PNG/WebP, 最大5MB)</label>
+                  <div class="relative h-32 bg-black/40 border border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center hover:border-primary/50 transition-colors cursor-pointer overflow-hidden" id="coverDropZone">
+                    <input type="file" id="workCover" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" required>
+                    <i class="fa fa-image text-2xl text-gray-500 mb-2 group-hover:text-primary transition-colors"></i>
+                    <span class="text-xs text-gray-500 group-hover:text-gray-300" id="coverFileName">点击上传封面</span>
+                    <img id="coverPreview" class="absolute inset-0 w-full h-full object-cover hidden opacity-60">
+                  </div>
+                </div>
+
+                <div class="relative group">
+                  <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">2. 完整作品文件 (PDF/PPT/图片/视频)</label>
+                  <div class="relative h-32 bg-black/40 border border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center hover:border-accent/50 transition-colors cursor-pointer" id="fileDropZone">
+                    <input type="file" id="workFile" accept=".pdf,.ppt,.pptx,image/*,.mp4,.mov,.avi" class="absolute inset-0 opacity-0 cursor-pointer z-10" required>
+                    <i class="fa fa-file-text-o text-2xl text-gray-500 mb-2 group-hover:text-accent transition-colors"></i>
+                    <span class="text-xs text-gray-500 group-hover:text-gray-300 text-center px-2" id="contentFileName">支持 PDF/PPT/高清图/视频<br>文件大小无限制</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">作品简介</label>
+                <textarea id="workDescription" rows="2" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm resize-none" placeholder="关于该作品的简要描述（50字以内）..."></textarea>
+              </div>
+              
+              <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-lg hover:shadow-primary/25 transition-all transform active:scale-95">
+                <i class="fa fa-check mr-2"></i>确认发布
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 作品网格 -->
+      <div id="worksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[300px]">
+        </div>
+      
+      <!-- 空状态 -->
+      <div id="emptyState" class="flex flex-col items-center justify-center py-32 text-center border border-dashed border-white/5 rounded-3xl bg-white/[0.02]">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center mb-6 shadow-inner">
+          <i class="fa fa-folder-open-o text-3xl text-gray-600"></i>
+        </div>
+        <h3 class="text-xl font-medium text-gray-300 mb-2">作品集暂未发布</h3>
+        <p class="text-gray-500 text-sm max-w-xs mx-auto mb-6">目前没有公开展示的作品。<br>公司内部人员请使用右上角入口上传。</p>
+        <button onclick="toggleUploadModal()" class="text-xs text-primary hover:text-secondary underline transition-colors">内部人员通道</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 作品详情页（新增独立页面样式） -->
+  <div id="workDetailPage" class="fixed inset-0 z-[100] bg-dark hidden flex-col animate-scale-in">
+    <div class="h-16 flex items-center justify-between px-6 border-b border-white/10 bg-dark/95 backdrop-blur sticky top-0 z-10">
+      <div class="flex items-center gap-3">
+        <button onclick="closeWorkDetail()" class="text-gray-400 hover:text-white transition-colors mr-2">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <h3 id="detailTitle" class="text-lg font-bold text-white truncate max-w-md">作品标题</h3>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="detailCategory" class="px-3 py-1 bg-black/60 backdrop-blur text-xs text-white rounded-md border border-white/10">
+          作品分类
+        </span>
+        <a id="detailDownload" href="#" download class="text-sm text-gray-400 hover:text-primary transition-colors flex items-center gap-2">
+          <i class="fa fa-download"></i> <span class="hidden sm:inline">下载源文件</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="flex-1 overflow-auto p-6 md:p-12">
+      <div class="container mx-auto max-w-5xl">
+        <!-- 作品头部信息 -->
+        <div class="mb-10">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="md:col-span-2">
+              <p id="detailDescription" class="text-gray-300 text-lg leading-relaxed mb-6">作品详细描述内容...</p>
+              <div class="flex flex-wrap gap-4 text-sm text-gray-400">
+                <div class="flex items-center gap-2">
+                  <i class="fa fa-calendar-o text-primary"></i>
+                  <span id="detailDate">发布日期</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa fa-file-o text-primary"></i>
+                  <span id="detailFileType">文件类型</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa fa-file-size-o text-primary"></i>
+                  <span id="detailFileSize">文件大小</span>
+                </div>
+              </div>
+            </div>
+            <div class="bg-black/40 rounded-xl p-4 border border-white/10">
+              <h4 class="text-white font-medium mb-3">作品信息</h4>
+              <div class="space-y-3 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">分类标签：</span>
+                  <span id="infoCategory" class="text-primary">品牌全案</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">上传时间：</span>
+                  <span id="infoDate" class="text-white">2025-01-01</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">文件格式：</span>
+                  <span id="infoFormat" class="text-white">PDF</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">文件大小：</span>
+                  <span id="infoSize" class="text-white">2.5MB</span>
+                </div>
+              </div>
+              <div class="mt-6">
+                <a id="infoDownload" href="#" download class="block w-full py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-center hover:shadow-lg hover:shadow-primary/25 transition-all">
+                  下载完整作品
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 作品内容预览 -->
+        <div class="glass-card rounded-2xl p-4 md:p-8 mb-10">
+          <h4 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <i class="fa fa-eye text-primary"></i> 作品预览
+          </h4>
+          <div id="detailContent" class="w-full flex items-center justify-center min-h-[400px] bg-black/30 rounded-xl p-4">
+            <div class="text-gray-500 animate-spin">
+              <i class="fa fa-circle-o-notch text-4xl"></i>
+              <p class="mt-4">正在加载作品内容...</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 相关推荐 -->
+        <div>
+          <h4 class="text-xl font-bold text-white mb-6">相关作品推荐</h4>
+          <div id="relatedWorks" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- 相关作品会动态加载 -->
+            <div class="text-gray-400 text-center py-12">
+              暂无相关作品
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 服务体系区（新增智能培训分类） -->
+  <section id="services" class="py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none"></div>
+    
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="text-center mb-16">
+        <span class="text-secondary text-sm font-bold tracking-widest uppercase mb-2 block">Our Services</span>
+        <h2 class="text-4xl font-bold text-white mb-6">全链路创意服务</h2>
+        <div class="w-16 h-10 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8 flex items-center justify-center">
+          <span class="text-white font-bold">四大核心</span>
+        </div>
+        <p class="text-gray-400 max-w-2xl mx-auto">我们提供从品牌策略到落地执行的全流程服务，<br>融合科技与艺术，为客户创造独特价值。</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- 品牌全案 -->
+        <div class="group glass-card p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 border-t border-white/10 hover:border-primary/50 work-card-hover">
+          <div class="w-14 h-14 rounded-xl bg-primary/20 text-primary flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+            <i class="fa fa-cube"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">品牌全案</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">从策略定位到视觉识别系统(VI)，我们为您构建具有市场竞争力的品牌资产，涵盖品牌策划、视觉设计、品牌推广全流程。</p>
+        </div>
+        
+        <!-- 视频制作 -->
+        <div class="group glass-card p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 border-t border-white/10 hover:border-secondary/50 work-card-hover">
+          <div class="w-14 h-14 rounded-xl bg-secondary/20 text-secondary flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+            <i class="fa fa-play-circle"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">视频制作</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">TVC广告、企业宣传片及短视频内容。电影级调色与剪辑，讲述动人故事，涵盖前期策划、拍摄执行、后期制作全流程。</p>
+        </div>
+        
+        <!-- 智能培训（新增） -->
+        <div class="group glass-card p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 border-t border-white/10 hover:border-success/50 work-card-hover">
+          <div class="w-14 h-14 rounded-xl bg-success/20 text-success flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+            <i class="fa fa-graduation-cap"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">智能培训</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">结合AIGC技术的智能培训解决方案，包括数字化课程开发、虚拟讲师系统、智能测评工具，助力企业人才发展。</p>
+        </div>
+        
+        <!-- 交互展陈 -->
+        <div class="group glass-card p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 border-t border-white/10 hover:border-accent/50 work-card-hover">
+          <div class="w-14 h-14 rounded-xl bg-accent/20 text-accent flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+            <i class="fa fa-tv"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">交互展陈</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">数字展厅、互动装置与沉浸式投影。融合科技与空间美学，创造惊艳现场体验，适用于展会、博物馆、企业展厅等场景。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于我们区 -->
+  <section id="about" class="py-24 bg-black/20 relative">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="flex flex-col lg:flex-row items-center gap-16">
+        <div class="lg:w-1/2">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary blur-2xl opacity-20"></div>
+            <div class="relative glass-panel p-8 rounded-2xl border border-white/10">
+              <h3 class="text-2xl font-bold text-white mb-4">关于奥因塞特 (ALL INSIGHT)</h3>
+              <p class="text-gray-400 leading-relaxed mb-6">
+                不只是记录者，更是时光的造梦师。作为天津奥因赛特设计有限公司的核心团队，我们依托"人工智能与科技艺术协同创新中心"，致力于以数字技术驱动设计创新。
+              </p>
+              <div class="flex gap-4 flex-wrap">
+                <div class="text-center p-4 bg-white/5 rounded-lg flex-1 min-w-[100px]">
+                  <div class="text-2xl font-bold text-primary">4</div>
+                  <div class="text-xs text-gray-500">核心服务领域</div>
+                </div>
+                <div class="text-center p-4 bg-white/5 rounded-lg flex-1 min-w-[100px]">
+                  <div class="text-2xl font-bold text-secondary">100+</div>
+                  <div class="text-xs text-gray-500">商业案例</div>
+                </div>
+                <div class="text-center p-4 bg-white/5 rounded-lg flex-1 min-w-[100px]">
+                  <div class="text-2xl font-bold text-accent">TOP</div>
+                  <div class="text-xs text-gray-500">行业认可</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lg:w-1/2">
+          <h2 class="text-4xl font-bold text-white mb-6">科技 + 艺术 + 文化</h2>
+          <p class="text-gray-400 mb-8 text-lg">
+            我们擅长将中国传统文化元素与现代设计语言、数字技术相结合，打造具有独特故事性与情感价值的IP形象与产品。
+          </p>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-center text-gray-300 p-3 bg-white/5 rounded-lg">
+              <i class="fa fa-map-marker w-8 text-primary"></i> 天津市 · 海河教育园区
+            </div>
+            <div class="flex items-center text-gray-300 p-3 bg-white/5 rounded-lg">
+              <i class="fa fa-envelope w-8 text-primary"></i> 460117431@qq.com
+            </div>
+            <div class="flex items-center text-gray-300 p-3 bg-white/5 rounded-lg">
+              <i class="fa fa-phone w-8 text-primary"></i> 136 1218 5987
+            </div>
+          </div>
+          <a href="#contact" class="inline-block px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-lg hover:shadow-primary/25 transition-all transform hover:-translate-y-1">
+            联系我们
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们区（补充contact锚点） -->
+  <section id="contact" class="py-24 relative">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="text-center mb-16">
+        <span class="text-secondary text-sm font-bold tracking-widest uppercase mb-2 block">Contact Us</span>
+        <h2 class="text-4xl font-bold text-white mb-6">开启合作之旅</h2>
+        <div class="w-16 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+      </div>
+      
+      <div class="glass-card rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
+        <form class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">公司名称</label>
+              <input type="text" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm transition-colors" placeholder="请输入公司名称">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">联系人</label>
+              <input type="text" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm transition-colors" placeholder="请输入联系人姓名">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">联系电话</label>
+              <input type="tel" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm transition-colors" placeholder="请输入联系电话">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">电子邮箱</label>
+              <input type="email" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm transition-colors" placeholder="请输入电子邮箱">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">合作需求</label>
+            <select class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm appearance-none cursor-pointer">
+              <option value="">请选择合作类型</option>
+              <option value="brand">品牌全案合作</option>
+              <option value="video">视频制作合作</option>
+              <option value="training">智能培训合作</option>
+              <option value="exhibition">交互展陈合作</option>
+              <option value="other">其他合作需求</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider">需求描述</label>
+            <textarea rows="4" class="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-primary focus:outline-none text-white text-sm resize-none" placeholder="请详细描述您的合作需求..."></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-lg hover:shadow-primary/25 transition-all transform active:scale-95">
+            提交合作申请
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-black py-12 border-t border-white/10">
+    <div class="container mx-auto px-6 md:px-12 text-center">
+      <div class="mb-8">
+        <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">ALL INSIGHT</span>
+      </div>
+      <div class="flex justify-center space-x-8 mb-8">
+        <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa fa-weixin text-2xl"></i></a>
+        <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa fa-weibo text-2xl"></i></a>
+        <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa fa-instagram text-2xl"></i></a>
+        <a href="#" class="text-gray-500 hover:text-white transition-colors"><i class="fa fa-linkedin text-2xl"></i></a>
+      </div>
+      <p class="text-gray-600 text-sm">© 2025 天津奥因塞特设计有限公司 版权所有 | 津ICP备12345678号</p>
+    </div>
+  </footer>
+
+  <!-- 提示框 -->
+  <div id="toast" class="fixed top-24 right-6 bg-white/10 backdrop-blur-md border border-primary/50 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-x-full transition-all duration-300 z-[70] flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+      <i class="fa fa-check"></i>
+    </div>
+    <div>
+      <h4 class="font-bold text-sm">操作成功</h4>
+      <p class="text-xs text-gray-300" id="toastMsg">内容已更新</p>
+    </div>
+  </div>
+
+  <script>
+    /* --- 核心逻辑 --- */
+
+    // 状态管理 - 初始化为空数组，确保没有预设作品
+    const state = {
+      works: [],
+      fileBlobs: {},
+      fileMetadata: {} // 存储文件元数据（大小、名称等）
+    };
+
+    // DOM 元素
+    const dom = {
+      uploadModal: document.getElementById('uploadModal'),
+      uploadForm: document.getElementById('uploadForm'),
+      worksGrid: document.getElementById('worksGrid'),
+      emptyState: document.getElementById('emptyState'),
+      coverInput: document.getElementById('workCover'),
+      coverPreview: document.getElementById('coverPreview'),
+      coverName: document.getElementById('coverFileName'),
+      fileInput: document.getElementById('workFile'),
+      fileName: document.getElementById('contentFileName'),
+      workDetailPage: document.getElementById('workDetailPage'),
+      detailTitle: document.getElementById('detailTitle'),
+      detailCategory: document.getElementById('detailCategory'),
+      detailDescription: document.getElementById('detailDescription'),
+      detailDate: document.getElementById('detailDate'),
+      detailFileType: document.getElementById('detailFileType'),
+      detailFileSize: document.getElementById('detailFileSize'),
+      detailContent: document.getElementById('detailContent'),
+      detailDownload: document.getElementById('detailDownload'),
+      infoCategory: document.getElementById('infoCategory'),
+      infoDate: document.getElementById('infoDate'),
+      infoFormat: document.getElementById('infoFormat'),
+      infoSize: document.getElementById('infoSize'),
+      infoDownload: document.getElementById('infoDownload'),
+      relatedWorks: document.getElementById('relatedWorks')
+    };
+
+    // 分类映射
+    const categoryMap = {
+      'brand': '品牌全案',
+      'video': '视频制作',
+      'training': '智能培训',
+      'exhibition': '交互展陈'
+    };
+
+    // IndexedDB 初始化
+    function initIndexedDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('AllInsightDB', 2); // 版本号升级为2
+        
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('works')) {
+            db.createObjectStore('works', { keyPath: 'id' });
+          }
+          if (!db.objectStoreNames.contains('files')) {
+            db.createObjectStore('files', { keyPath: 'workId' });
+          }
+        };
+        
+        request.onsuccess = (e) => resolve(e.target.result);
+        request.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    // 保存作品到IndexedDB
+    async function saveWorkToDB(work, file) {
+      try {
+        const db = await initIndexedDB();
+        const transaction = db.transaction(['works', 'files'], 'readwrite');
+        
+        // 存储作品元数据
+        transaction.objectStore('works').add(work);
+        
+        // 存储文件内容和完整元数据
+        const reader = new FileReader();
+        return new Promise((resolve) => {
+          reader.onload = (e) => {
+            // 计算文件大小（友好显示）
+            let fileSize = '';
+            if (file.size < 1024 * 1024) {
+              fileSize = (file.size / 1024).toFixed(2) + ' KB';
+            } else {
+              fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+            }
+            
+            // 获取文件格式
+            const fileFormat = file.name.split('.').pop().toUpperCase();
+            
+            transaction.objectStore('files').add({
+              workId: work.id,
+              fileName: file.name,
+              fileType: file.type,
+              fileSize: file.size,
+              fileSizeText: fileSize,
+              fileFormat: fileFormat,
+              lastModified: file.lastModified,
+              lastModifiedText: new Date(file.lastModified).toLocaleDateString(),
+              content: e.target.result
+            });
+            transaction.oncomplete = () => {
+              db.close();
+              resolve();
+            };
+          };
+          reader.readAsArrayBuffer(file);
+        });
+      } catch (error) {
+        console.error('保存到IndexedDB失败:', error);
+        throw error;
+      }
+    }
+
+    // 从IndexedDB加载作品
+    async function loadWorksFromDB() {
+      try {
+        const db = await initIndexedDB();
+        const transaction = db.transaction(['works', 'files'], 'readonly');
+        
+        const worksStore = transaction.objectStore('works');
+        const filesStore = transaction.objectStore('files');
+        
+        const works = await new Promise((resolve) => {
+          const request = worksStore.getAll();
+          request.onsuccess = (e) => resolve(e.target.result);
+        });
+        
+        // 加载文件Blob映射和元数据
+        for (const work of works) {
+          const fileData = await new Promise((resolve) => {
+            const request = filesStore.get(work.id);
+            request.onsuccess = (e) => resolve(e.target.result);
+          });
+          
+          if (fileData) {
+            const blob = new Blob([fileData.content], { type: fileData.fileType });
+            state.fileBlobs[work.id] = {
+              url: URL.createObjectURL(blob),
+              type: fileData.fileType,
+              name: fileData.fileName
+            };
+            
+            // 存储文件元数据
+            state.fileMetadata[work.id] = {
+              size: fileData.fileSize,
+              sizeText: fileData.fileSizeText,
+              format: fileData.fileFormat,
+              lastModified: fileData.lastModifiedText
+            };
+          }
+        }
+        
+        db.close();
+        return works;
+      } catch (error) {
+        console.error('从IndexedDB加载失败:', error);
+        return [];
+      }
+    }
+
+    // 1. 初始化
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 从IndexedDB加载作品（初始为空）
+      state.works = await loadWorksFromDB();
+      renderWorks('all');
+      
+      // 全局错误处理
+      window.addEventListener('error', (e) => {
+        console.error('全局错误:', e);
+        showToast('系统出现错误，请刷新页面重试', 'error');
+      });
+      
+      // 键盘导航支持
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (!dom.uploadModal.classList.contains('hidden')) {
+            toggleUploadModal();
+          }
+          if (!dom.workDetailPage.classList.contains('hidden')) {
+            closeWorkDetail();
+          }
+        }
+        
+        if (e.key === 'Tab' && !dom.uploadModal.classList.contains('hidden')) {
+          const modalElements = dom.uploadModal.querySelectorAll('button, input, select, textarea');
+          const first = modalElements[0];
+          const last = modalElements[modalElements.length - 1];
+          
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      });
+    });
+
+    // 2. 界面交互功能
+    function toggleUploadModal() {
+      dom.uploadModal.classList.toggle('hidden');
+      const menuBtn = document.getElementById('menuBtn');
+      menuBtn.setAttribute('aria-expanded', !dom.uploadModal.classList.contains('hidden'));
+    }
+
+    // 封面预览
+    dom.coverInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        dom.coverName.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          dom.coverPreview.src = e.target.result;
+          dom.coverPreview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // 内容文件名称显示
+    dom.fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        let size = '';
+        if (file.size < 1024 * 1024) {
+          size = (file.size / 1024).toFixed(2) + ' KB';
+        } else {
+          size = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+        }
+        dom.fileName.innerHTML = `<span class="text-white">${file.name}</span><br><span class="text-accent">${size}</span>`;
+      }
+    });
+
+    // 3. 上传处理 (核心)
+    dom.uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const title = document.getElementById('workTitle').value.trim();
+      const category = document.getElementById('workCategory').value;
+      const desc = document.getElementById('workDescription').value;
+      const coverFile = dom.coverInput.files[0];
+      const contentFile = dom.fileInput.files[0];
+
+      // 表单验证
+      if (!title || title.length < 2 || title.length > 50) {
+        showToast('作品标题需2-50个字符', 'error');
+        return;
+      }
+      
+      if (!coverFile) {
+        showToast('请上传作品封面图', 'error');
+        return;
+      }
+      
+      const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!allowedImageTypes.includes(coverFile.type)) {
+        showToast('封面图仅支持JPG/PNG/WebP格式', 'error');
+        return;
+      }
+      
+      if (coverFile.size > 5 * 1024 * 1024) { // 5MB限制
+        showToast('封面图大小不能超过5MB', 'error');
+        return;
+      }
+      
+      if (!contentFile) {
+        showToast('请上传完整作品文件', 'error');
+        return;
+      }
+      
+      const allowedFileTypes = [
+        'image/jpeg', 'image/png', 'image/webp',
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.ms-powerpoint',
+        'video/mp4', 'video/quicktime', 'video/x-msvideo' // 新增视频格式支持
+      ];
+      
+      if (!allowedFileTypes.includes(contentFile.type)) {
+        showToast('仅支持图片/PDF/PPT/视频格式文件', 'error');
+        return;
+      }
+
+      // 处理封面
+      const reader = new FileReader();
+      reader.onload = async function(event) {
+        const coverBase64 = event.target.result;
+        const workId = Date.now().toString();
+
+        // 生成 Blob URL
+        const contentUrl = URL.createObjectURL(contentFile);
+
+        // 计算文件大小（友好显示）
+        let fileSizeText = '';
+        if (contentFile.size < 1024 * 1024) {
+          fileSizeText = (contentFile.size / 1024).toFixed(2) + ' KB';
+        } else {
+          fileSizeText = (contentFile.size / 1024 / 1024).toFixed(2) + ' MB';
+        }
+
+        // 获取文件格式
+        const fileFormat = contentFile.name.split('.').pop().toUpperCase();
+
+        // 存储 Blob 映射和元数据
+        state.fileBlobs[workId] = {
+          url: contentUrl,
+          type: contentFile.type,
+          name: contentFile.name
+        };
+
+        state.fileMetadata[workId] = {
+          size: contentFile.size,
+          sizeText: fileSizeText,
+          format: fileFormat,
+          lastModified: new Date(contentFile.lastModified).toLocaleDateString()
+        };
+
+        const newWork = {
+          id: workId,
+          title,
+          category,
+          desc: desc || '暂无详细描述',
+          cover: coverBase64,
+          fileType: contentFile.type,
+          fileFormat: fileFormat,
+          fileSizeText: fileSizeText,
+          date: new Date().toISOString(),
+          dateText: new Date().toLocaleDateString()
+        };
+
+        try {
+          // 保存到IndexedDB
+          await saveWorkToDB(newWork, contentFile);
+          
+          state.works.unshift(newWork);
+          renderWorks('all');
+          toggleUploadModal();
+          dom.uploadForm.reset();
+          resetInputs();
+          showToast('作品发布成功！等待审核后即可展示');
+        } catch (err) {
+          console.error('上传失败:', err);
+          showToast('作品上传失败: ' + err.message, 'error');
+        }
+      };
+      reader.readAsDataURL(coverFile);
+    });
+
+    function resetInputs() {
+      dom.coverPreview.classList.add('hidden');
+      dom.coverName.textContent = '点击上传封面';
+      dom.fileName.innerHTML = '支持 PDF/PPT/高清图/视频<br>文件大小无限制';
+    }
+
+    // 4. 渲染作品网格
+    function renderWorks(filter) {
+      dom.worksGrid.innerHTML = '';
+      
+      const filtered = filter === 'all' ? state.works : state.works.filter(w => w.category === filter);
+      
+      if (filtered.length === 0) {
+        updateEmptyState();
+        return;
+      }
+
+      dom.emptyState.classList.add('hidden');
+      dom.worksGrid.classList.remove('hidden');
+
+      // 预加载图片
+      preloadImages(filtered);
+
+      filtered.forEach((work, index) => {
+        const card = document.createElement('div');
+        card.className = 'group relative rounded-2xl overflow-hidden bg-white/5 border border-white/5 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 animate-fade-in-up work-card work-card-hover';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.style.willChange = 'transform, box-shadow, border-color';
+        
+        card.innerHTML = `
+          <div class="aspect-[4/3] overflow-hidden relative cursor-pointer" onclick="openWorkDetail('${work.id}')">
+            <img src="${work.cover}" alt="${work.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" decoding="async">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-60"></div>
+            
+            <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+              <span class="px-6 py-2 border border-white text-white rounded-full font-bold tracking-widest transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                查看详情
+              </span>
+            </div>
+            
+            <div class="absolute top-4 left-4">
+              <span class="px-3 py-1 bg-black/60 backdrop-blur text-xs text-white rounded-md border border-white/10">
+                ${categoryMap[work.category] || '作品'}
+              </span>
+            </div>
+            
+            <div class="absolute bottom-4 right-4">
+              <span class="px-2 py-1 bg-black/60 backdrop-blur text-xs text-gray-300 rounded-md border border-white/10">
+                ${work.fileFormat || '文件'}
+              </span>
+            </div>
+          </div>
+          
+          <div class="p-5">
+            <h3 class="text-lg font-bold text-white mb-2 truncate work-card-title">${work.title}</h3>
+            <p class="text-gray-400 text-sm line-clamp-2 h-10">${work.desc || '暂无描述'}</p>
+            <div class="flex justify-between items-center mt-4 text-xs text-gray-500">
+              <span>${work.dateText || '2025'}</span>
+              <span>${work.fileSizeText || '未知大小'}</span>
+            </div>
+          </div>
+        `;
+        dom.worksGrid.appendChild(card);
+      });
+    }
+
+    // 5. 打开作品详情页（核心新增功能）
+    window.openWorkDetail = async function(id) {
+      const work = state.works.find(w => w.id === id);
+      if (!work) return;
+
+      let blobData = state.fileBlobs[id];
+      let fileMeta = state.fileMetadata[id];
+      
+      // 如果Blob不存在，从IndexedDB加载
+      if (!blobData || !fileMeta) {
+        try {
+          const db = await initIndexedDB();
+          const transaction = db.transaction('files', 'readonly');
+          const fileData = await new Promise((resolve) => {
+            const request = transaction.objectStore('files').get(id);
+            request.onsuccess = (e) => resolve(e.target.result);
+          });
+          
+          if (fileData) {
+            const blob = new Blob([fileData.content], { type: fileData.fileType });
+            blobData = {
+              url: URL.createObjectURL(blob),
+              type: fileData.fileType,
+              name: fileData.fileName
+            };
+            state.fileBlobs[id] = blobData;
+            
+            fileMeta = {
+              size: fileData.fileSize,
+              sizeText: fileData.fileSizeText,
+              format: fileData.fileFormat,
+              lastModified: fileData.lastModifiedText
+            };
+            state.fileMetadata[id] = fileMeta;
+          }
+          db.close();
+        } catch (error) {
+          console.error('加载文件失败:', error);
+          showToast('加载作品失败: ' + error.message, 'error');
+          return;
+        }
+      }
+      
+      // 填充详情页数据
+      dom.detailTitle.textContent = work.title;
+      dom.detailCategory.textContent = categoryMap[work.category] || '作品';
+      dom.detailDescription.textContent = work.desc || '暂无详细描述';
+      dom.detailDate.textContent = work.dateText || new Date(work.date).toLocaleDateString();
+      dom.detailFileType.textContent = work.fileFormat || '未知格式';
+      dom.detailFileSize.textContent = work.fileSizeText || fileMeta?.sizeText || '未知大小';
+      
+      // 设置下载链接
+      dom.detailDownload.href = blobData?.url || '#';
+      dom.detailDownload.download = blobData?.name || work.title + '.' + (work.fileFormat || 'file');
+      
+      // 右侧信息栏
+      dom.infoCategory.textContent = categoryMap[work.category] || '作品';
+      dom.infoDate.textContent = work.dateText || new Date(work.date).toLocaleDateString();
+      dom.infoFormat.textContent = work.fileFormat || '未知格式';
+      dom.infoSize.textContent = work.fileSizeText || fileMeta?.sizeText || '未知大小';
+      dom.infoDownload.href = blobData?.url || '#';
+      dom.infoDownload.download = blobData?.name || work.title + '.' + (work.fileFormat || 'file');
+      
+      // 加载作品内容预览
+      if (blobData) {
+        const fileUrl = blobData.url;
+        const fileType = blobData.type;
+        
+        // 延迟加载内容，优化体验
+        setTimeout(() => {
+          // 图片文件
+          if (fileType.startsWith('image/')) {
+            dom.detailContent.innerHTML = `
+              <div class="relative w-full max-w-3xl">
+                <img src="${fileUrl}" class="w-full h-auto rounded-xl shadow-2xl" 
+                     loading="lazy" decoding="async" alt="${work.title}">
+                <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-md text-xs text-white">
+                  点击图片可放大查看
+                </div>
+              </div>
+            `;
+            
+            // 图片放大功能
+            const img = dom.detailContent.querySelector('img');
+            img.addEventListener('click', () => {
+              img.classList.toggle('max-w-none');
+              img.classList.toggle('max-h-[90vh]');
+              img.classList.toggle('object-contain');
+            });
+          } 
+          // PDF文件
+          else if (fileType === 'application/pdf') {
+            dom.detailContent.innerHTML = `
+              <iframe src="${fileUrl}" class="w-full h-[600px] rounded-xl shadow-2xl border-none" 
+                      title="${work.title} PDF预览" sandbox="allow-scripts allow-same-origin">
+              </iframe>
+            `;
+          }
+          // 视频文件
+          else if (fileType.startsWith('video/')) {
+            dom.detailContent.innerHTML = `
+              <video src="${fileUrl}" class="w-full max-w-3xl rounded-xl shadow-2xl" 
+                     controls poster="${work.cover}" preload="metadata">
+                您的浏览器不支持视频播放
+              </video>
+            `;
+          }
+          // PPT文件 - 区分新旧版本
+          else if (fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+            dom.detailContent.innerHTML = `
+              <div class="text-center p-10 bg-black/30 rounded-xl max-w-2xl mx-auto">
+                <i class="fa fa-file-powerpoint-o text-6xl text-secondary mb-6"></i>
+                <h3 class="text-2xl text-white mb-4">演示文稿文件 (.pptx)</h3>
+                <p class="text-gray-400 mb-8">浏览器暂不支持PPT文件在线预览，请下载后使用PowerPoint或WPS打开。</p>
+                <a href="${fileUrl}" download="${blobData.name}" class="px-6 py-2 bg-primary text-white rounded-full font-bold hover:bg-primary/80 transition-colors inline-block">
+                  下载完整文件
+                </a>
+              </div>
+            `;
+          }
+          // 旧版PPT
+          else if (fileType === 'application/vnd.ms-powerpoint') {
+            dom.detailContent.innerHTML = `
+              <div class="text-center p-10 bg-black/30 rounded-xl max-w-2xl mx-auto">
+                <i class="fa fa-file-powerpoint-o text-6xl text-secondary mb-6"></i>
+                <h3 class="text-2xl text-white mb-4">旧版PPT文件 (.ppt)</h3>
+                <p class="text-gray-400 mb-8">该格式为旧版PPT，建议转换为.pptx或PDF格式以支持在线预览。</p>
+                <a href="${fileUrl}" download="${blobData.name}" class="px-6 py-2 bg-primary text-white rounded-full font-bold hover:bg-primary/80 transition-colors inline-block">
+                  下载文件
+                </a>
+              </div>
+            `;
+          }
+          // 其他格式
+          else {
+            dom.detailContent.innerHTML = `
+              <div class="text-center p-10 bg-black/30 rounded-xl max-w-2xl mx-auto">
+                <i class="fa fa-file-o text-6xl text-secondary mb-6"></i>
+                <h3 class="text-2xl text-white mb-4">文件预览</h3>
+                <p class="text-gray-400 mb-8">该文件格式支持下载查看</p>
+                <a href="${fileUrl}" download="${blobData.name}" class="px-6 py-2 bg-primary text-white rounded-full font-bold hover:bg-primary/80 transition-colors inline-block">
+                  下载完整文件
+                </a>
+              </div>
+            `;
+          }
+        }, 300);
+      } else {
+        // 加载失败处理
+        dom.detailContent.innerHTML = `
+          <div class="text-center p-10 bg-black/30 rounded-xl max-w-2xl mx-auto">
+            <img src="${work.cover}" class="max-h-[30vh] mx-auto rounded mb-6 opacity-50" loading="lazy" decoding="async">
+            <p class="text-secondary text-lg mb-4">文件资源加载失败</p>
+            <p class="text-gray-500 text-sm mb-8">可能是文件已损坏或存储异常，请尝试刷新页面后重试</p>
+            <button onclick="closeWorkDetail()" class="px-6 py-2 bg-white/10 text-white rounded-full font-bold hover:bg-white/20 transition-colors">
+              关闭详情页
+            </button>
+          </div>
+        `;
+      }
+      
+      // 加载相关作品
+      loadRelatedWorks(work.category, id);
+      
+      // 显示详情页
+      dom.workDetailPage.classList.remove('hidden');
+      dom.workDetailPage.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    };
+
+    // 关闭作品详情页
+    window.closeWorkDetail = function() {
+      dom.workDetailPage.classList.add('hidden');
+      dom.workDetailPage.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      dom.detailContent.innerHTML = `
+        <div class="text-gray-500 animate-spin">
+          <i class="fa fa-circle-o-notch text-4xl"></i>
+          <p class="mt-4">正在加载作品内容...</p>
+        </div>
+      `;
+    };
+
+    // 加载相关作品
+    function loadRelatedWorks(category, currentId) {
+      // 筛选同分类且不同ID的作品
+      const related = state.works
+        .filter(w => w.category === category && w.id !== currentId)
+        .slice(0, 3);
+      
+      if (related.length === 0) {
+        dom.relatedWorks.innerHTML = `
+          <div class="text-gray-400 text-center py-12 col-span-full">
+            暂无相关作品
+          </div>
+        `;
+        return;
+      }
+      
+      dom.relatedWorks.innerHTML = '';
+      related.forEach(work => {
+        const card = document.createElement('div');
+        card.className = 'glass-card rounded-xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer work-card-hover';
+        card.onclick = () => openWorkDetail(work.id);
+        
+        card.innerHTML = `
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="${work.cover}" alt
